@@ -1,30 +1,41 @@
-# Bayesian Time Series Analysis with Probabilistic Programming
+# Time-Varying Volatility versus Heavy Tails in S&P 500 Returns
 
-This project applies Bayesian probabilistic programming to model the volatility dynamics of the S&P 500 index.  
-The analysis is split into two phases: a **long‑term trend model** on monthly data with regime‑switching volatility, and a **high‑frequency volatility model** on daily data that distinguishes normal and crisis regimes.  
-The goal is to understand whether apparent “fat tails” in returns are better explained by heavy‑tailed likelihoods or by explicit modeling of time‑varying volatility, and to evaluate the models in an out‑of‑sample forecasting setting.
+A Bayesian analysis of S&P 500 volatility with PyMC. Full details are in the report: [`report.pdf`](report.pdf).
+
+**Questions.**
+1. Are the heavy tails of returns simply a consequence of volatility changing over time?
+2. Does splitting the market into "normal" and "crisis" regimes help forecast volatility?
+
+**Findings.**
+- Stochastic volatility models on weekly returns (2005–2025) show a strongly time-varying, persistent volatility (half-life of about 14 weeks). Once volatility varies, the return shocks are close to Normal (Student-t degrees of freedom above 10), so the heavy tails come mainly from changing volatility.
+- A threshold AR(1) model for daily log realized volatility performs the same as a single-regime AR(1) out of sample (2023–2025), and both are only marginally better than the naive persistence forecast. Its crisis signal is lagged by construction.
 
 ## Repository structure
 
-- `code_v1.ipynb`  
-  Notebook for **Phase 1** of the project.  
-  Contains data loading, preprocessing of monthly prices, specification and fitting of piecewise‑linear trend models with different volatility assumptions, and out‑of‑sample forecasting on the test period.
+```
+├── code_v2.ipynb      # main analysis (used in the report): weekly SV models, daily threshold model
+├── code_v1.ipynb      # exploratory analysis on monthly returns (not part of the report)
+├── data/              # frozen snapshot of daily S&P500 prices, 2005–2025 (+ download metadata)
+├── plots/, plots2/    # figures produced by code_v1 and code_v2
+├── report.pdf         # project report
+├── CORRECTIONS.md     # corrections to the original version, with motivations and references
+└── requirements.txt   # pinned package versions
+```
 
-- `code_v2.ipynb`  
-  Notebook for **Phase 2** of the project.  
-  Works with daily data, builds realized volatility, fits a regime‑switching AR(1) model for log‑volatility, and evaluates forecasting performance and crisis detection on unseen data.
+The notebooks never download data: every result is reproducible from the snapshot in `data/`.
 
-- `data/`  
-  Input datasets used in the analysis (price series and derived time series).
+## How to run
 
-- `plots/`  
-  Figures generated in Phase 1 (trend fits, posterior summaries, forecast plots, etc.).
+Requires Python ≥ 3.11 (tested with 3.13).
 
-- `plots2/`  
-  Figures generated in Phase 2 (volatility paths, predictive intervals, regime classification plots).
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+jupyter lab
+```
 
-- `report.pdf`  
-  Full project report describing the methodology, models, results, and references.
+Run the notebooks from the repository root, top to bottom. Sampling uses a fixed random seed (42).
 
-- `requirements.txt`  
-  List of Python dependencies needed to run the notebooks.
+## Origin
+
+Revised version of a group project for the *AI Programming* course at TU Wien, originally developed with M. Csikós. The original version is in the git history; all changes are documented in [`CORRECTIONS.md`](CORRECTIONS.md).

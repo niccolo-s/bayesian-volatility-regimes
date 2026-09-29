@@ -15,10 +15,9 @@ A Bayesian analysis of S&P 500 volatility with PyMC. Full details are in the rep
 ```
 ├── code_v2.ipynb      # main analysis (used in the report): weekly SV models, daily threshold model
 ├── code_v1.ipynb      # exploratory analysis on monthly returns (not part of the report)
-├── data/              # frozen snapshot of daily S&P500 prices, 2005–2025 (+ download metadata)
+├── data/              # frozen snapshot of daily S&P500 prices, 2005–2025
 ├── plots/, plots2/    # figures produced by code_v1 and code_v2
 ├── report.pdf         # project report
-├── CORRECTIONS.md     # corrections to the original version, with motivations and references
 └── requirements.txt   # pinned package versions
 ```
 
@@ -38,4 +37,4 @@ Run the notebooks from the repository root, top to bottom. Sampling uses a fixed
 
 ## Origin
 
-Revised version of a group project for the *AI Programming* course at TU Wien, originally developed with M. Csikós. The original version is in the git history; all changes are documented in [`CORRECTIONS.md`](CORRECTIONS.md).
+Revised version of a group project for the *AI Programming* course at TU Wien, originally developed with M. Csikós. The original version is in the git history.
